@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "home": "Home",
+    "surah": "Surah",
+    "doa": "Dua",
+    "tafsir": "Tafsir"
+  },
+  "common": {
+    "search": "Search...",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "notFound": "Not found"
+  },
+  "surah": {
+    "title": "Surah List",
+    "verse": "Verse",
+    "revelation": "Revelation",
+    "makkiyah": "Makkiyah",
+    "madaniyah": "Madaniyah",
+    "translation": "Translation",
+    "tafsir": "Tafsir",
+    "audio": "Audio"
+  },
+  "doa": {
+    "title": "Daily Duas",
+    "arabic": "Arabic",
+    "latin": "Latin",
+    "translation": "Translation"
+  }
+}

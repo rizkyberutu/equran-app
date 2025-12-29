@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "surah": "Surah",
+    "doa": "Doa",
+    "tafsir": "Tafsir"
+  },
+  "common": {
+    "search": "Cari...",
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "notFound": "Tidak ditemukan"
+  },
+  "surah": {
+    "title": "Daftar Surah",
+    "verse": "Ayat",
+    "revelation": "Tempat Turun",
+    "makkiyah": "Makkiyah",
+    "madaniyah": "Madaniyah",
+    "translation": "Terjemahan",
+    "tafsir": "Tafsir",
+    "audio": "Audio"
+  },
+  "doa": {
+    "title": "Doa Sehari-hari",
+    "arabic": "Arab",
+    "latin": "Latin",
+    "translation": "Terjemahan"
+  }
+}
