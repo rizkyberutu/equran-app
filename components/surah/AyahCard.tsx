@@ -10,7 +10,7 @@ import { Play, Pause, BookOpen } from "lucide-react";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import type { Ayah } from "@/types/surah";
 import type { Locale } from "@/types/common";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/cn";
 
 interface AyahCardProps {
   ayah: Ayah;

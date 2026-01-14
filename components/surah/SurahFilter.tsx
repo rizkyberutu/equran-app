@@ -36,7 +36,7 @@ export function SurahFilter({
         </label>
         <Select
           value={revelation}
-          onValueChange={(value) => onRevelationChange(value)}
+          onValueChange={(value) => onRevelationChange(value as string)}
         >
           <SelectTrigger>
             <SelectValue
