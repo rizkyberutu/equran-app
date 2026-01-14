@@ -49,8 +49,8 @@ body {
   --card-border: oklch(0.9384 0.0018 247.84);
   --card-separator: oklch(0.9306 0.002 247.84);
   --card-footer: oklch(0.977 0.0007 247.83);
-  --card-shadow:
-    0px 5px 10px rgba(0, 0, 0, 0.03), 0px 8px 3px -4px rgba(0, 0, 0, 0.02);
+  --card-shadow: 0px 5px 10px rgba(0, 0, 0, 0.03),
+    0px 8px 3px -4px rgba(0, 0, 0, 0.02);
   --item: oklch(1 0 0);
   --item-border: oklch(0.9384 0.0018 247.84);
   --chip: oklch(0.9616 0.0011 247.83);
@@ -59,8 +59,8 @@ body {
   --popover-foreground: var(--foreground);
   --popover-border: oklch(0.9384 0.0018 247.84);
   --popover-separator: oklch(0.9384 0.0018 247.84);
-  --popover-shadow:
-    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --popover-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
   --popover-accent: oklch(0.9616 0.0011 247.83);
   --dialog: oklch(1 0 0);
   --dialog-foreground: var(--foreground);
@@ -78,9 +78,9 @@ body {
   --tabs-foreground: var(--foreground);
   --tabs-border: oklch(0.915 0.0024 247.85);
   --tabs-accent: oklch(1 0 0);
-  --primary: oklch(0.5784 0.2057 262.95);
+  --primary: oklch(0.5 0.08 50);
   --primary-foreground: oklch(0.9764 0.0013 286.38);
-  --primary-border: oklch(0.5938 0.1979 263.03);
+  --primary-border: oklch(0.44 0.07 50);
   --secondary: oklch(0.9616 0.0011 247.83);
   --secondary-foreground: var(--foreground);
   --secondary-border: oklch(0.915 0.0024 247.85);
@@ -149,9 +149,8 @@ body {
   --popover-foreground: var(--foreground);
   --popover-border: oklch(0.3974 0.0076 248.02);
   --popover-separator: oklch(0.3974 0.0076 248.02);
-  --popover-shadow:
-    0px 90px 40px rgba(0, 0, 0, 0.03), 0px 40px 50px rgba(0, 0, 0, 0.05),
-    0px 14px 22px rgba(0, 0, 0, 0.06);
+  --popover-shadow: 0px 90px 40px rgba(0, 0, 0, 0.03),
+    0px 40px 50px rgba(0, 0, 0, 0.05), 0px 14px 22px rgba(0, 0, 0, 0.06);
   --popover-accent: oklch(0.4068 0.0079 248.02);
   --dialog: oklch(0.2579 0.0043 247.99);
   --dialog-foreground: var(--foreground);
@@ -169,9 +168,9 @@ body {
   --tabs-foreground: var(--foreground);
   --tabs-accent: oklch(0.3879 0.0074 248.02);
   --tabs-border: oklch(0.2684 0.0045 248);
-  --primary: oklch(0.5784 0.2057 262.95);
+  --primary: oklch(0.6 0.1 50);
   --primary-foreground: var(--foreground);
-  --primary-border: oklch(0.4217 0.1869 262.77);
+  --primary-border: oklch(0.5 0.08 50);
   --secondary: oklch(0.3174 0.0065 264.48);
   --secondary-foreground: var(--foreground);
   --secondary-border: oklch(0.2657 0.0055 286.02);
@@ -196,12 +195,10 @@ body {
 }
 
 @theme inline {
-  --font-sans:
-    'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-mono:
-    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    'Liberation Mono', 'Courier New', monospace;
+  --font-sans: var(--font-sora), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Noto Color Emoji";
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -346,7 +343,28 @@ body {
   .root {
     isolation: isolate;
   }
+
   body {
     @apply text-base bg-background text-foreground;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sora), sans-serif;
+  }
+
+  p,
+  span,
+  div,
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    font-family: var(--font-sora), sans-serif;
   }
 }

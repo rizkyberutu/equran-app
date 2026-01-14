@@ -26,12 +26,12 @@ export function SurahCard({ surah, locale }: SurahCardProps) {
     <Link href={`/${locale}/surah/${surah.nomor}`}>
       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
         <CardHeader>
-          <IconBox variant="primary-subtle" size="md">
-            <span className="text-sm font-bold">{surah.nomor}</span>
+          <IconBox variant="primary-subtle" size="lg">
+            <span className="text-lg font-bold">{surah.nomor}</span>
           </IconBox>
 
           <div className="flex flex-col gap-1">
-            <CardTitle className="flex items-center justify-between">
+            <CardTitle className="flex items-center justify-evenly">
               <span>{surah.namaLatin}</span>
               <span className="text-xl font-arabic">{surah.nama}</span>
             </CardTitle>
