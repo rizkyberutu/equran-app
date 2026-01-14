@@ -1,17 +1,10 @@
 // components/surah/SurahDetailHeader.tsx
 "use client";
 
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/selia/card";
+import { Card, CardBody } from "@/components/selia/card";
 import { Badge } from "@/components/selia/badge";
 import { IconBox } from "@/components/selia/icon-box";
-import { Divider } from "@/components/selia/divider";
-import { BackButton } from "@/components/shared/BackButton";
+import { BookOpen, Dot } from "lucide-react";
 import type { SurahDetail } from "@/types/surah";
 import type { Locale } from "@/types/common";
 
@@ -19,10 +12,10 @@ interface SurahDetailHeaderProps {
   surah: SurahDetail;
   locale: Locale;
   dictionary: {
-    back: string;
     verses: string;
     revelation: string;
     description: string;
+    totalVerses: string;
   };
 }
 
@@ -32,42 +25,55 @@ export function SurahDetailHeader({
   dictionary,
 }: SurahDetailHeaderProps) {
   return (
-    <div className="space-y-4">
-      <BackButton text={dictionary.back} fallbackHref={`/${locale}/surah`} />
-
-      <Card>
-        <CardHeader align="center">
-          <IconBox variant="primary" size="lg" circle>
-            <span className="text-xl font-bold">{surah.nomor}</span>
+    <Card>
+      <CardBody className="space-y-6">
+        {/* Header Section */}
+        <div className="flex items-start gap-6">
+          {/* Number Badge */}
+          <IconBox variant="primary-subtle" size="lg">
+            <span className="text-2xl font-bold">{surah.nomor}</span>
           </IconBox>
 
-          <div className="text-center w-full">
-            <CardTitle className="text-3xl mb-2">{surah.namaLatin}</CardTitle>
-            <div className="text-4xl font-arabic mb-3">{surah.nama}</div>
-            <CardDescription className="flex items-center justify-center gap-3 flex-wrap">
-              <Badge variant="secondary">{surah.tempatTurun}</Badge>
-              <span>•</span>
-              <span>
-                {surah.jumlahAyat} {dictionary.verses}
-              </span>
-            </CardDescription>
+          {/* Title & Info */}
+          <div className="flex-1 space-y-3">
+            {/* Names */}
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center">
+                <h1 className="text-3xl font-bold mb-1">{surah.namaLatin}</h1>
+                <Dot className="size-8 text-muted" />
+                <p className="text-lg text-muted">{surah.arti}</p>
+              </div>
+              <span className="text-4xl font-arabic">{surah.nama}</span>
+            </div>
+
+            {/* Stats */}
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge variant="secondary" size="md">
+                {surah.tempatTurun}
+              </Badge>
+              <div className="flex items-center gap-2 text-sm text-muted">
+                <BookOpen className="size-4" />
+                <span>
+                  {surah.jumlahAyat} {dictionary.verses}
+                </span>
+              </div>
+            </div>
           </div>
-        </CardHeader>
+        </div>
 
-        <Divider variant="default" />
-
-        <CardBody>
-          <div>
-            <p className="text-sm font-medium text-muted mb-2">
+        {/* Description */}
+        {surah.deskripsi && (
+          <div className="pt-6 border-t border-border">
+            <h2 className="text-sm font-medium text-muted mb-3">
               {dictionary.description}
-            </p>
+            </h2>
             <div
-              className="text-foreground leading-relaxed prose prose-sm max-w-none"
+              className="prose prose-sm max-w-none text-foreground leading-relaxed"
               dangerouslySetInnerHTML={{ __html: surah.deskripsi }}
             />
           </div>
-        </CardBody>
-      </Card>
-    </div>
+        )}
+      </CardBody>
+    </Card>
   );
 }

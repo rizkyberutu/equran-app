@@ -36,12 +36,14 @@ export function DoaListClient({ doas, locale, dict }: DoaListClientProps) {
 
   return (
     <>
-      <div className="mb-8">
-        <SearchBar
-          placeholder={dict.search}
-          value={searchQuery}
-          onChange={setSearchQuery}
-        />
+      <div className="flex sm:flex-row flex-col gap-4 items-end mb-8 mx-auto max-w-xl">
+        <div className="flex-1">
+          <SearchBar
+            placeholder={dict.search}
+            value={searchQuery}
+            onChange={setSearchQuery}
+          />
+        </div>
       </div>
 
       <DoaList doas={filteredDoas} locale={locale} />

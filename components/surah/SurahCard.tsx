@@ -1,20 +1,11 @@
-// components/surah/SurahCard.tsx
 "use client";
 
 import Link from "next/link";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/selia/card";
+import { Card, CardBody, CardHeader } from "@/components/selia/card";
 import { Badge } from "@/components/selia/badge";
 import { IconBox } from "@/components/selia/icon-box";
-import { BookOpen } from "lucide-react";
 import type { SurahListItem } from "@/types/surah";
 import type { Locale } from "@/types/common";
-import { cn } from "@/lib/utils";
 
 interface SurahCardProps {
   surah: SurahListItem;
@@ -25,29 +16,37 @@ export function SurahCard({ surah, locale }: SurahCardProps) {
   return (
     <Link href={`/${locale}/surah/${surah.nomor}`}>
       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
-        <CardHeader>
+        {/* Override CardHeader grid dengan flex */}
+        <CardHeader className="flex! flex-col! gap-4">
           <IconBox variant="primary-subtle" size="lg">
             <span className="text-lg font-bold">{surah.nomor}</span>
           </IconBox>
 
-          <div className="flex flex-col gap-1">
-            <CardTitle className="flex items-center justify-evenly">
-              <span>{surah.namaLatin}</span>
-              <span className="text-xl font-arabic">{surah.nama}</span>
-            </CardTitle>
-            <CardDescription className="flex items-center gap-2">
-              <Badge variant="secondary" size="sm">
-                {surah.tempatTurun}
-              </Badge>
-              <span className="text-xs">
-                {surah.jumlahAyat} {locale === "id" ? "Ayat" : "Verses"}
-              </span>
-            </CardDescription>
+          <div className="flex items-center justify-between gap-4 w-full">
+            <span className="text-2xl font-semibold text-foreground">
+              {surah.namaLatin}
+            </span>
+            <span className="text-4xl font-arabic font-semibold text-primary">
+              {surah.nama}
+            </span>
+          </div>
+
+          {/* Surah Info */}
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary">{surah.tempatTurun}</Badge>
+            <span className="text-base text-muted">
+              <span className="font-semibold text-primary">
+                {surah.jumlahAyat}
+              </span>{" "}
+              {locale === "id" ? "Ayat" : "Verses"}
+            </span>
           </div>
         </CardHeader>
 
         <CardBody>
-          <p className="text-sm text-muted line-clamp-2">{surah.arti}</p>
+          <p className="text-sm font-semibold text-muted line-clamp-2">
+            {surah.arti}
+          </p>
         </CardBody>
       </Card>
     </Link>
