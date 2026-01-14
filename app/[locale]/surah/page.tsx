@@ -46,7 +46,7 @@ export default async function SurahPage({ params }: SurahPageProps) {
 
   return (
     <PageContainer className="py-8">
-      <div className="mb-8">
+      <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold mb-2">{dict.title}</h1>
         <p className="text-muted-foreground">{dict.subtitle}</p>
       </div>

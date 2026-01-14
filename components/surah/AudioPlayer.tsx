@@ -1,8 +1,15 @@
-// components/surah/AudioPlayer.tsx
 "use client";
 
 import { Card, CardBody, CardHeader, CardTitle } from "@/components/selia/card";
 import { Button } from "@/components/selia/button";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectPopup,
+  SelectList,
+  SelectItem,
+} from "@/components/selia/select";
 import {
   Progress,
   ProgressLabel,
@@ -11,7 +18,6 @@ import {
 import { Play, Pause, Volume2, VolumeX, RotateCcw } from "lucide-react";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 interface AudioPlayerProps {
   src: string;
@@ -112,22 +118,30 @@ export function AudioPlayer({
           </Button>
         </div>
 
-        {/* Qari Selection */}
+        {/* Qari Selection - DROPDOWN */}
         {qariOptions && qariOptions.length > 1 && (
           <div className="pt-2 border-t border-border">
             <p className="text-sm font-medium text-muted mb-2">Select Qari</p>
-            <div className="flex flex-wrap gap-2">
-              {qariOptions.map((qari) => (
-                <Button
-                  key={qari.id}
-                  variant={currentSrc === qari.url ? "primary" : "outline"}
-                  size="xs"
-                  onClick={() => setCurrentSrc(qari.url)}
-                >
-                  {qari.name}
-                </Button>
-              ))}
-            </div>
+            <Select
+              value={currentSrc}
+              onValueChange={(value) => setCurrentSrc(value as string)}
+            >
+              <SelectTrigger>
+                <span className="flex-1 text-left">
+                  {qariOptions.find((q) => q.url === currentSrc)?.name ||
+                    "Select Qari"}
+                </span>
+              </SelectTrigger>
+              <SelectPopup>
+                <SelectList>
+                  {qariOptions.map((qari) => (
+                    <SelectItem key={qari.id} value={qari.url}>
+                      {qari.name}
+                    </SelectItem>
+                  ))}
+                </SelectList>
+              </SelectPopup>
+            </Select>
           </div>
         )}
       </CardBody>

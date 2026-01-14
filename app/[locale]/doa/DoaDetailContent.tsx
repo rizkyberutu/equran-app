@@ -51,7 +51,6 @@ export function DoaDetailContent({
             {/* Tags */}
             {doa.tag.map((tag, index) => (
               <Badge key={index} variant="primary-outline" size="sm">
-                <TagIcon className="size-3 mr-1" />
                 {tag}
               </Badge>
             ))}

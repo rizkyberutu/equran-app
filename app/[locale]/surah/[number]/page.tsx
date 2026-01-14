@@ -1,12 +1,9 @@
 // app/[locale]/surah/[number]/page.tsx
 import { SurahDetailHeader } from "@/components/surah/SurahDetailHeader";
 import { SurahNavigation } from "@/components/surah/SurahNavigation";
-import { AyahCard } from "@/components/surah/AyahCard";
-import { AudioPlayer } from "@/components/surah/AudioPlayer";
-import { ErrorMessage } from "@/components/shared/ErrorMessage";
-import { Divider } from "@/components/selia/divider";
+import { AyahList } from "@/components/surah/AyahList";
 import { PageContainer } from "@/components/layout/PageContainer";
-import type { SurahDetail } from "@/types/surah";
+import { BackButton } from "@/components/shared/BackButton";
 import type { Locale } from "@/types/common";
 import { notFound } from "next/navigation";
 import { getSurahDetail } from "@/lib/services";
@@ -21,22 +18,20 @@ interface SurahDetailPageProps {
 const getDictionary = (locale: Locale) => {
   if (locale === "id") {
     return {
-      back: "Kembali",
+      back: "Kembali ke Daftar Surah",
       verses: "Ayat",
       revelation: "Tempat Turun",
       description: "Deskripsi",
-      error: "Gagal memuat surah",
-      fullAudio: "Audio Lengkap Surah",
+      totalVerses: "Total Ayat",
     };
   }
 
   return {
-    back: "Back",
+    back: "Back to Surah List",
     verses: "Verses",
     revelation: "Revelation",
     description: "Description",
-    error: "Failed to load surah",
-    fullAudio: "Full Surah Audio",
+    totalVerses: "Total Verses",
   };
 };
 
@@ -45,7 +40,6 @@ export default async function SurahDetailPage({
 }: SurahDetailPageProps) {
   const { locale, number } = await params;
   const dict = getDictionary(locale);
-
   const surah = await getSurahDetail(number, locale);
 
   if (!surah) {
@@ -54,44 +48,26 @@ export default async function SurahDetailPage({
 
   return (
     <PageContainer className="py-8">
-      <div className="space-y-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Back Button */}
+        <BackButton text={dict.back} fallbackHref={`/${locale}/surah`} />
+
+        {/* Surah Header */}
         <SurahDetailHeader surah={surah} locale={locale} dictionary={dict} />
 
-        {surah.audioFull && Object.keys(surah.audioFull).length > 0 && (
-          <AudioPlayer
-            src={Object.values(surah.audioFull)[0]}
-            title={dict.fullAudio}
-            subtitle={`${surah.namaLatin} - ${surah.arti}`}
-            qariOptions={Object.entries(surah.audioFull).map(([id, url]) => ({
-              id,
-              name: id,
-              url,
-            }))}
-          />
-        )}
+        {/* Ayah List with Global Qari Selector */}
+        <AyahList
+          ayahs={surah.ayat}
+          surahNumber={surah.nomor}
+          locale={locale}
+        />
 
-        <Divider />
-
-        <div className="space-y-6">
-          {surah.ayat.map((ayah) => (
-            <AyahCard
-              key={ayah.nomorAyat}
-              ayah={ayah}
-              surahNumber={surah.nomor}
-              locale={locale}
-              showTafsir={true}
-            />
-          ))}
-        </div>
-
-        <div className="mt-12">
-          <Divider className="mb-6" />
-          <SurahNavigation
-            previous={surah.suratSebelumnya}
-            next={surah.suratSelanjutnya}
-            locale={locale}
-          />
-        </div>
+        {/* Navigation */}
+        <SurahNavigation
+          previous={surah.suratSebelumnya}
+          next={surah.suratSelanjutnya}
+          locale={locale}
+        />
       </div>
     </PageContainer>
   );

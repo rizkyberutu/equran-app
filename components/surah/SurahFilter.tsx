@@ -38,7 +38,7 @@ export function SurahFilter({
           value={revelation}
           onValueChange={(value) => onRevelationChange(value as string)}
         >
-          <SelectTrigger>
+          <SelectTrigger className={"cursor-pointer"}>
             <SelectValue
               placeholder={
                 locale === "id"
@@ -50,7 +50,11 @@ export function SurahFilter({
           <SelectPopup>
             <SelectList>
               {revelationOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className={"cursor-pointer"}
+                >
                   {option.label}
                 </SelectItem>
               ))}
