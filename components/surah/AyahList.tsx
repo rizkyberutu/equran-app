@@ -1,7 +1,7 @@
 // components/surah/AyahList.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AyahCard } from "./AyahCard";
 import { Pagination } from "@/components/shared/Pagination";
 import { Card, CardBody } from "@/components/selia/card";
@@ -12,7 +12,7 @@ import {
   SelectList,
   SelectItem,
 } from "@/components/selia/select";
-import { Volume2 } from "lucide-react";
+import { Volume2, BookOpen } from "lucide-react";
 import { getQariName } from "@/lib/utils/qari-mapping";
 import type { Ayah } from "@/types/surah";
 import type { Locale } from "@/types/common";
@@ -32,12 +32,12 @@ export function AyahList({
 }: AyahListProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Get available qaris from first ayah
   const availableQaris = ayahs.length > 0 ? Object.keys(ayahs[0].audio) : [];
   const defaultQari = availableQaris[0] || "";
-
-  // Global qari state - shared by all ayahs
   const [selectedQari, setSelectedQari] = useState<string>(defaultQari);
+
+  // Jump to ayah state
+  const [jumpToAyah, setJumpToAyah] = useState<string>("");
 
   const totalPages = Math.ceil(ayahs.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -52,41 +52,60 @@ export function AyahList({
     }
   };
 
+  // Handle jump to specific ayah
+  const handleJumpToAyah = (ayahNumber: string) => {
+    if (!ayahNumber) return;
+
+    setJumpToAyah(ayahNumber);
+    const ayahNum = parseInt(ayahNumber);
+
+    // Calculate which page the ayah is on
+    const pageNum = Math.ceil(ayahNum / itemsPerPage);
+    setCurrentPage(pageNum);
+
+    // Scroll to the ayah after a short delay to ensure page has changed
+    setTimeout(() => {
+      const element = document.getElementById(`ayah-${ayahNum}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Add highlight effect
+        element.classList.add("ring-2", "ring-primary", "ring-offset-2");
+        setTimeout(() => {
+          element.classList.remove("ring-2", "ring-primary", "ring-offset-2");
+        }, 2000);
+      }
+    }, 100);
+  };
+
   return (
     <div id="ayah-list" className="space-y-6">
-      {/* Global Qari Selector - Sticky */}
-      {availableQaris.length > 1 && (
-        <div className="sticky top-20 z-40">
-          <Card>
-            <CardBody className="py-4">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3 shrink-0">
-                  <Volume2 className="size-5 text-primary" />
-                  <p className="text-sm font-medium text-foreground">
-                    {locale === "id"
-                      ? "Pilih Qari untuk Semua Ayat:"
-                      : "Select Qari for All Verses:"}
-                  </p>
-                </div>
-
-                <div className="flex-1 max-w-sm">
+      {/* Global Controls - Sticky */}
+      <div className="">
+        <Card>
+          <CardBody className="py-4">
+            <div className="flex flex-col md:flex-row gap-4">
+              {/* Qari Selector */}
+              {availableQaris.length > 1 && (
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Volume2 className="size-4 text-primary" />
+                    <p className="text-sm font-medium text-foreground">
+                      {locale === "id" ? "Pilih Qari:" : "Select Qari:"}
+                    </p>
+                  </div>
                   <Select
                     value={selectedQari}
                     onValueChange={(value) => setSelectedQari(value as string)}
                   >
                     <SelectTrigger>
-                      <span className="flex-1 text-left cursor-pointer">
+                      <span className="flex-1 text-left">
                         {getQariName(selectedQari)}
                       </span>
                     </SelectTrigger>
                     <SelectPopup>
                       <SelectList>
                         {availableQaris.map((qari) => (
-                          <SelectItem
-                            key={qari}
-                            value={qari}
-                            className={"cursor-pointer"}
-                          >
+                          <SelectItem key={qari} value={qari}>
                             {getQariName(qari)}
                           </SelectItem>
                         ))}
@@ -94,11 +113,47 @@ export function AyahList({
                     </SelectPopup>
                   </Select>
                 </div>
+              )}
+
+              {/* Jump to Ayah */}
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <BookOpen className="size-4 text-primary" />
+                  <p className="text-sm font-medium text-foreground">
+                    {locale === "id" ? "Lompat ke Ayat:" : "Jump to Verse:"}
+                  </p>
+                </div>
+                <Select
+                  value={jumpToAyah}
+                  onValueChange={(value) => handleJumpToAyah(value as string)}
+                >
+                  <SelectTrigger>
+                    <span className="flex-1 text-left text-muted">
+                      {jumpToAyah
+                        ? `${locale === "id" ? "Ayat" : "Verse"} ${jumpToAyah}`
+                        : locale === "id"
+                        ? "Pilih ayat..."
+                        : "Select verse..."}
+                    </span>
+                  </SelectTrigger>
+                  <SelectPopup>
+                    <SelectList>
+                      {ayahs.map((ayah) => (
+                        <SelectItem
+                          key={ayah.nomorAyat}
+                          value={ayah.nomorAyat.toString()}
+                        >
+                          {locale === "id" ? "Ayat" : "Verse"} {ayah.nomorAyat}
+                        </SelectItem>
+                      ))}
+                    </SelectList>
+                  </SelectPopup>
+                </Select>
               </div>
-            </CardBody>
-          </Card>
-        </div>
-      )}
+            </div>
+          </CardBody>
+        </Card>
+      </div>
 
       {/* Ayahs */}
       <div className="space-y-6">
