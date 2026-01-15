@@ -19,7 +19,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
   };
 
   return (
-    <Button variant="outline" size="sm-icon" onClick={handleSwitch}>
+    <Button variant="secondary" size="sm-icon" onClick={handleSwitch}>
       <Globe className="size-4" />
       <span className="sr-only">
         {currentLocale === "id"

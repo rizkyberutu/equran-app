@@ -40,7 +40,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
         <nav className="hidden md:flex items-center gap-2">
           <Button
             render={<Link href={`/${locale}`} />}
-            variant={pathname === `/${locale}` ? "secondary" : "plain"}
+            variant={pathname === `/${locale}` ? "primary" : "plain"}
             size="sm"
           >
             {dictionary.nav.home}
@@ -48,7 +48,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
 
           <Button
             render={<Link href={`/${locale}/surah`} />}
-            variant={isActive("/surah") ? "secondary" : "plain"}
+            variant={isActive("/surah") ? "primary" : "plain"}
             size="sm"
           >
             {dictionary.nav.surah}
@@ -56,7 +56,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
 
           <Button
             render={<Link href={`/${locale}/doa`} />}
-            variant={isActive("/doa") ? "secondary" : "plain"}
+            variant={isActive("/doa") ? "primary" : "plain"}
             size="sm"
           >
             {dictionary.nav.doa}
@@ -89,7 +89,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
           <nav className="container px-4 py-4 flex flex-col gap-2">
             <Button
               render={<Link href={`/${locale}`} />}
-              variant={pathname === `/${locale}` ? "secondary" : "plain"}
+              variant={pathname === `/${locale}` ? "primary" : "plain"}
               size="sm"
               className="justify-start"
               onClick={() => setIsMobileMenuOpen(false)}
@@ -99,7 +99,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
 
             <Button
               render={<Link href={`/${locale}/surah`} />}
-              variant={isActive("/surah") ? "secondary" : "plain"}
+              variant={isActive("/surah") ? "primary" : "plain"}
               size="sm"
               className="justify-start"
               onClick={() => setIsMobileMenuOpen(false)}
@@ -109,7 +109,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
 
             <Button
               render={<Link href={`/${locale}/doa`} />}
-              variant={isActive("/doa") ? "secondary" : "plain"}
+              variant={isActive("/doa") ? "primary" : "plain"}
               size="sm"
               className="justify-start"
               onClick={() => setIsMobileMenuOpen(false)}

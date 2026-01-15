@@ -125,10 +125,10 @@ export function SurahSidebar({
                     <div
                       className={cn(
                         "p-4 rounded-xl transition-all duration-200",
-                        "border-2",
+                        "border",
                         isActive
                           ? "bg-primary/10 border-primary shadow-md"
-                          : "border-transparent hover:bg-muted/50 hover:border-border active:scale-[0.98]"
+                          : "border-transparent hover:bg-primary/10 hover:border-border active:scale-[0.98]"
                       )}
                     >
                       <div className="flex items-start gap-3">
