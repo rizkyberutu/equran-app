@@ -34,8 +34,10 @@ export function Header({ locale, dictionary }: HeaderProps) {
       <div className="flex h-16 items-center justify-between px-8 md:px-16 lg:px-24">
         {/* Logo */}
         <Link href={`/${locale}`} className="flex items-center gap-2">
-          <BookOpen className="size-6 text-primary" />
-          <span className="font-bold text-xl">Al-Quran</span>
+          <BookOpen className="size-6 text-primary stroke-3" />
+          <span className="font-bold text-xl">
+            {locale === "id" ? "Aplikasi Al-Quran" : "Quran App"}
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
