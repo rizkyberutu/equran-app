@@ -26,14 +26,31 @@ export function SurahCard({ surah, locale }: SurahCardProps) {
             <span className="text-2xl font-semibold text-foreground">
               {surah.namaLatin}
             </span>
-            <span className="text-4xl font-arabic font-semibold text-primary">
+            <span
+              className="text-4xl font-arabic font-semibold text-primary"
+              style={{ fontFamily: "var(--font-arabic)" }}
+            >
               {surah.nama}
             </span>
           </div>
 
           {/* Surah Info */}
           <div className="flex items-center gap-2">
-            <Badge variant="secondary">{surah.tempatTurun}</Badge>
+            <Badge
+              variant={
+                surah.tempatTurun?.toLowerCase() === "madinah"
+                  ? "secondary-outline"
+                  : "primary-outline"
+              }
+              className={
+                surah.tempatTurun?.toLowerCase() === "madinah"
+                  ? "border-secondary-border"
+                  : undefined
+              }
+            >
+              {surah.tempatTurun}
+            </Badge>
+
             <span className="text-base text-muted">
               <span className="font-semibold text-primary">
                 {surah.jumlahAyat}
@@ -44,8 +61,9 @@ export function SurahCard({ surah, locale }: SurahCardProps) {
         </CardHeader>
 
         <CardBody>
-          <p className="text-sm font-semibold text-muted line-clamp-2">
-            {surah.arti}
+          <p className="text-sm font-medium text-muted/80 line-clamp-2">
+            {locale === "id" ? "Arti Surah" : "Surah Translation"}:{" "}
+            <span className="font-semibold text-primary">{surah.arti}</span>
           </p>
         </CardBody>
       </Card>

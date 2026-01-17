@@ -55,7 +55,7 @@ export function AyahCard({
 
         {/* Arabic Text */}
         <div className="text-right bg-primary/10 p-6 rounded-lg">
-          <p className="text-3xl leading-loose font-arabic text-foreground">
+          <p className="text-3xl md:text-4xl font-semibold leading-loose font-arabic text-foreground">
             {ayah.teksArab}
           </p>
         </div>

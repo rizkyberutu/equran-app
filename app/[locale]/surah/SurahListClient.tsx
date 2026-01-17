@@ -27,6 +27,7 @@ export function SurahListClient({
   const filteredSurahs = useMemo(() => {
     let filtered = surahs;
 
+    // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -38,10 +39,14 @@ export function SurahListClient({
       );
     }
 
+    // Revelation filter - Case insensitive comparison
     if (revelation !== "all") {
-      filtered = filtered.filter(
-        (surah) => surah.tempatTurun.toLowerCase() === revelation.toLowerCase()
-      );
+      filtered = filtered.filter((surah) => {
+        // Normalize both values untuk perbandingan
+        const surahRevelation = surah.tempatTurun.toLowerCase().trim();
+        const filterRevelation = revelation.toLowerCase().trim();
+        return surahRevelation === filterRevelation;
+      });
     }
 
     return filtered;
