@@ -197,6 +197,8 @@ body {
 @theme inline {
   --font-sans: var(--font-sora), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Noto Color Emoji";
+  --font-arabic: var(--font-nashk), "Noto Naskh Arabic", "Segoe UI Historic",
+    "Segoe UI", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", "Courier New", monospace;
 
@@ -348,6 +350,10 @@ body {
     @apply text-base bg-background text-foreground;
   }
 
+  .font-arabic {
+    font-family: var(--font-arabic), "Noto Naskh Arabic";
+  }
+
   h1,
   h2,
   h3,
@@ -366,5 +372,10 @@ body {
   textarea,
   select {
     font-family: var(--font-sora), sans-serif;
+  }
+}
+@layer utilities {
+  .font-arabic {
+    font-family: var(--font-arabic);
   }
 }

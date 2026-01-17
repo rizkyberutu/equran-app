@@ -31,6 +31,11 @@ const getDictionary = (locale: Locale) => {
           description: "Audio berkualitas tinggi dari qari terbaik",
           badge: "HD Audio",
         },
+        sholat: {
+          title: "Jadwal Sholat",
+          description: "Jadwal sholat untuk muslim di seluruh dunia",
+          badge: "34 Provinsi",
+        },
         doa: {
           title: "Doa Sehari-hari",
           description: "Kumpulan doa dalam kehidupan muslim",
@@ -68,6 +73,11 @@ const getDictionary = (locale: Locale) => {
         title: "6 Reciters Available",
         description: "High quality audio from best reciters",
         badge: "HD Audio",
+      },
+      sholat: {
+        title: "Prayer Times",
+        description: "Prayer times for Muslims around the world",
+        badge: "34 Provinces",
       },
       doa: {
         title: "Daily Supplications",
@@ -153,9 +163,9 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {/* Surah Feature */}
-          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {/* Surah Feature - PRIMARY */}
+          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-primary/20">
             <CardBody className="p-6 sm:p-8 space-y-4">
               <div className="flex items-start justify-between">
                 <IconBox
@@ -165,7 +175,7 @@ export default async function HomePage({ params }: HomePageProps) {
                 >
                   <BookOpen className="size-6" />
                 </IconBox>
-                <Badge variant="primary-outline" size="sm">
+                <Badge variant="primary" size="sm">
                   {dict.features.surah.badge}
                 </Badge>
               </div>
@@ -178,96 +188,96 @@ export default async function HomePage({ params }: HomePageProps) {
                   {dict.features.surah.description}
                 </p>
               </div>
-
-              {/* Surah Feature */}
-              <Button
-                render={<Link href={`/${locale}/surah`} />}
-                variant="primary"
-                size="sm"
-                block
-                className="group-hover:shadow-lg hover:bg-primary hover:text-primary-foreground hover:border-primary"
-              >
-                {dict.cta.explore}
-                <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
             </CardBody>
           </Card>
 
-          {/* Audio Feature */}
-          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          {/* Audio Feature - CYAN */}
+          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-cyan-500/20">
             <CardBody className="p-6 sm:p-8 space-y-4">
               <div className="flex items-start justify-between">
                 <IconBox
-                  variant="success"
+                  variant="cyan"
                   size="lg"
                   className="group-hover:scale-110 transition-transform"
                 >
                   <Volume2 className="size-6" />
                 </IconBox>
-                <Badge variant="success-outline" size="sm">
+                <Badge
+                  size="sm"
+                  className="bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/20"
+                >
                   {dict.features.audio.badge}
                 </Badge>
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xl font-bold text-success">
+                <h3 className="text-xl font-bold text-cyan-600 dark:text-cyan-400">
                   {dict.features.audio.title}
                 </h3>
                 <p className="text-sm text-muted leading-relaxed">
                   {dict.features.audio.description}
                 </p>
               </div>
-
-              {/* Audio Feature */}
-              <Button
-                render={<Link href={`/${locale}/surah`} />}
-                variant="outline"
-                size="sm"
-                block
-                className="group-hover:shadow-lg bg-success hover:bg-success/80 text-white hover:text-white/90 hover:border-success/80"
-              >
-                {dict.cta.explore}
-                <ArrowRight className="size-4 stroke-white hover:stroke-white/90 group-hover:translate-x-1 transition-transform" />
-              </Button>
             </CardBody>
           </Card>
 
-          {/* Doa Feature */}
-          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          {/* Jadwal Sholat Feature - VIOLET */}
+          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-violet-500/20">
             <CardBody className="p-6 sm:p-8 space-y-4">
               <div className="flex items-start justify-between">
                 <IconBox
-                  variant="warning"
+                  variant="violet"
                   size="lg"
                   className="group-hover:scale-110 transition-transform"
                 >
                   <Heart className="size-6" />
                 </IconBox>
-                <Badge variant="warning-outline" size="sm">
+                <Badge
+                  size="sm"
+                  className="bg-violet-500/10 text-violet-700 dark:text-violet-300 border border-violet-500/20"
+                >
+                  {dict.features.sholat.badge}
+                </Badge>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-violet-600 dark:text-violet-400">
+                  {dict.features.sholat.title}
+                </h3>
+                <p className="text-sm text-muted leading-relaxed">
+                  {dict.features.sholat.description}
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+
+          {/* Doa Feature - ROSE */}
+          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-rose-500/20">
+            <CardBody className="p-6 sm:p-8 space-y-4">
+              <div className="flex items-start justify-between">
+                <IconBox
+                  variant="rose"
+                  size="lg"
+                  className="group-hover:scale-110 transition-transform"
+                >
+                  <Heart className="size-6" />
+                </IconBox>
+                <Badge
+                  size="sm"
+                  className="bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/20"
+                >
                   {dict.features.doa.badge}
                 </Badge>
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-xl font-bold text-warning">
+                <h3 className="text-xl font-bold text-rose-600 dark:text-rose-400">
                   {dict.features.doa.title}
                 </h3>
                 <p className="text-sm text-muted leading-relaxed">
                   {dict.features.doa.description}
                 </p>
               </div>
-
-              {/* Doa Feature */}
-              <Button
-                render={<Link href={`/${locale}/doa`} />}
-                variant="outline"
-                size="sm"
-                block
-                className="group-hover:shadow-lg bg-warning hover:bg-warning/80 text-white hover:text-white/90 hover:border-warning/80"
-              >
-                {dict.cta.explore}
-                <ArrowRight className="size-4 stroke-white hover:stroke-white/90 group-hover:translate-x-1 transition-transform" />
-              </Button>
             </CardBody>
           </Card>
         </div>

@@ -1,12 +1,14 @@
-// components/surah/SurahDetailHeader.tsx
 "use client";
 
+import { useState } from "react";
 import { Card, CardBody } from "@/components/selia/card";
 import { Badge } from "@/components/selia/badge";
 import { IconBox } from "@/components/selia/icon-box";
-import { BookOpen, Dot } from "lucide-react";
+import { Button } from "@/components/selia/button";
+import { BookOpen, Dot, ChevronDown, ChevronUp } from "lucide-react";
 import type { SurahDetail } from "@/types/surah";
 import type { Locale } from "@/types/common";
+import { cn } from "@/lib/utils/cn";
 
 interface SurahDetailHeaderProps {
   surah: SurahDetail;
@@ -24,26 +26,56 @@ export function SurahDetailHeader({
   locale,
   dictionary,
 }: SurahDetailHeaderProps) {
+  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
+
   return (
     <Card>
       <CardBody className="space-y-6">
         {/* Header Section */}
-        <div className="flex items-start gap-6">
+        <div className="flex items-center lg:items-start gap-4 md:gap-6">
           {/* Number Badge */}
           <IconBox variant="primary-subtle" size="lg">
             <span className="text-2xl font-bold">{surah.nomor}</span>
           </IconBox>
 
           {/* Title & Info */}
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 space-y-1 lg:space-y-3">
             {/* Names */}
             <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center">
-                <h1 className="text-3xl font-bold mb-1">{surah.namaLatin}</h1>
+              <div className="flex items-center justify-between gap-1">
+                <h1 className="text-lg md:text-3xl font-bold">
+                  {surah.namaLatin}
+                </h1>
                 <Dot className="size-8 text-muted" />
-                <p className="text-lg text-muted">{surah.arti}</p>
+                <p className="text-xs lg:text-lg text-muted">{surah.arti}</p>
               </div>
-              <span className="text-4xl font-arabic">{surah.nama}</span>
+
+              <div className="flex gap-1 items-center">
+                <span className="hidden md:block text-4xl font-arabic">
+                  {surah.nama}
+                </span>
+
+                {/* Description Toggle - with Text */}
+                {surah.deskripsi && (
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    onClick={() => setIsDescriptionOpen(!isDescriptionOpen)}
+                    className="ml-2"
+                  >
+                    {/* Text - hidden on mobile */}
+                    <span className="hidden sm:inline text-xs">
+                      {dictionary.description}
+                    </span>
+                    {/* Icon */}
+                    {isDescriptionOpen ? (
+                      <ChevronUp className="size-3.5 sm:ml-1.5" />
+                    ) : (
+                      <ChevronDown className="size-3.5 sm:ml-1.5" />
+                    )}
+                  </Button>
+                )}
+              </div>
             </div>
 
             {/* Stats */}
@@ -61,16 +93,22 @@ export function SurahDetailHeader({
           </div>
         </div>
 
-        {/* Description */}
+        {/* Description Content - Collapsible */}
         {surah.deskripsi && (
-          <div className="pt-6 border-t border-border">
-            <h2 className="text-sm font-medium text-muted mb-3">
-              {dictionary.description}
-            </h2>
-            <div
-              className="prose prose-sm max-w-none text-foreground leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: surah.deskripsi }}
-            />
+          <div
+            className={cn(
+              "grid transition-all duration-300 ease-in-out border-t border-border",
+              isDescriptionOpen
+                ? "grid-rows-[1fr] opacity-100 pt-6"
+                : "grid-rows-[0fr] opacity-0 border-t-0"
+            )}
+          >
+            <div className="overflow-hidden">
+              <div
+                className="prose prose-sm max-w-none text-foreground leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: surah.deskripsi }}
+              />
+            </div>
           </div>
         )}
       </CardBody>

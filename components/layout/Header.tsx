@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/selia/button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import type { Locale } from "@/types/common";
-import { BookOpen, Heart, Menu, X } from "lucide-react";
+import { BookOpen, Clock, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,8 @@ interface HeaderProps {
     nav: {
       home: string;
       surah: string;
+      shalat: string;
+      imsakiyah: string;
       doa: string;
     };
   };
@@ -55,6 +57,24 @@ export function Header({ locale, dictionary }: HeaderProps) {
           </Button>
 
           <Button
+            render={<Link href={`/${locale}/shalat`} />}
+            variant={isActive("/shalat") ? "primary" : "plain"}
+            size="sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {dictionary.nav.shalat}
+          </Button>
+
+          <Button
+            render={<Link href={`/${locale}/imsakiyah`} />}
+            variant={isActive("/imsakiyah") ? "primary" : "plain"}
+            size="sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {dictionary.nav.imsakiyah}
+          </Button>
+
+          <Button
             render={<Link href={`/${locale}/doa`} />}
             variant={isActive("/doa") ? "primary" : "plain"}
             size="sm"
@@ -91,7 +111,6 @@ export function Header({ locale, dictionary }: HeaderProps) {
               render={<Link href={`/${locale}`} />}
               variant={pathname === `/${locale}` ? "primary" : "plain"}
               size="sm"
-              className="justify-start"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {dictionary.nav.home}
@@ -101,17 +120,31 @@ export function Header({ locale, dictionary }: HeaderProps) {
               render={<Link href={`/${locale}/surah`} />}
               variant={isActive("/surah") ? "primary" : "plain"}
               size="sm"
-              className="justify-start"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {dictionary.nav.surah}
             </Button>
 
             <Button
+              render={<Link href={`/${locale}/shalat`} />}
+              variant={isActive("/shalat") ? "primary" : "plain"}
+              size="sm"
+            >
+              {dictionary.nav.shalat}
+            </Button>
+
+            <Button
+              render={<Link href={`/${locale}/imsakiyah`} />}
+              variant={isActive("/imsakiyah") ? "primary" : "plain"}
+              size="sm"
+            >
+              {dictionary.nav.imsakiyah}
+            </Button>
+
+            <Button
               render={<Link href={`/${locale}/doa`} />}
               variant={isActive("/doa") ? "primary" : "plain"}
               size="sm"
-              className="justify-start"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {dictionary.nav.doa}

@@ -10,6 +10,7 @@ import {
   SelectItem,
 } from "@/components/selia/select";
 import type { Locale } from "@/types/common";
+import { Label } from "../selia/label";
 
 interface SurahFilterProps {
   locale: Locale;
@@ -24,16 +25,16 @@ export function SurahFilter({
 }: SurahFilterProps) {
   const revelationOptions = [
     { value: "all", label: locale === "id" ? "Semua" : "All" },
-    { value: "mekah", label: locale === "id" ? "Mekah" : "Makkah" },
-    { value: "medinah", label: locale === "id" ? "Medinah" : "Madinah" },
+    { value: "Mekah", label: locale === "id" ? "Mekah" : "Makkah" },
+    { value: "Madinah", label: locale === "id" ? "Madinah" : "Madinah" },
   ];
 
   return (
     <div className="flex flex-col sm:flex-row gap-3">
       <div className="flex-1">
-        <label className="text-sm font-medium text-foreground mb-2 block">
+        <Label className="text-sm font-medium text-foreground mb-2 block">
           {locale === "id" ? "Tempat Turun" : "Revelation Place"}
-        </label>
+        </Label>
         <Select
           value={revelation}
           onValueChange={(value) => onRevelationChange(value as string)}
