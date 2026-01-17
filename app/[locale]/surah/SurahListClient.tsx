@@ -54,7 +54,7 @@ export function SurahListClient({
 
   return (
     <>
-      <div className="flex sm:flex-row flex-col gap-4 items-end mb-8 mx-auto max-w-xl">
+      <div className="flex flex-row gap-4 items-end mb-8 mx-auto md:max-w-xl">
         <div className="flex-1">
           <SearchBar
             placeholder={dict.search}
