@@ -1,3 +1,4 @@
+// app/[locale]/layout.tsx
 "use client";
 
 import { Sora, Noto_Sans_Arabic } from "next/font/google";
@@ -50,20 +51,21 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const dict = getDictionary(locale);
+  const currentLocale = locale as Locale;
+  const dict = getDictionary(currentLocale);
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={currentLocale} suppressHydrationWarning>
       <body className={sora.className}>
         <style jsx global>{`
           .font-arabic {
             font-family: ${notoSansArabic.style.fontFamily}, serif !important;
           }
         `}</style>
-        <Header locale={locale} dictionary={dict} />
+        <Header locale={currentLocale} dictionary={dict} />
         {children}
         <Toast />
       </body>
