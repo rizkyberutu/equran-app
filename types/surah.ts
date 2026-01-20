@@ -95,15 +95,17 @@ export interface SurahDetail {
   nama: string;
   namaLatin: string;
   jumlahAyat: number;
-  tempatTurun: "Mekah" | "Medinah" | "mekah" | "medinah";
+  tempatTurun: string;
   arti: string;
   deskripsi: string;
-  audioFull: {
-    [key: string]: string;
-  };
+  audioFull: { [key: string]: string };
   ayat: Ayah[];
-  suratSelanjutnya: SurahNavigation | null;
-  suratSebelumnya: SurahNavigation | null;
+  suratSelanjutnya: SurahNavigation;
+  suratSebelumnya: SurahNavigation;
+  tafsir?: Array<{
+    ayat: number;
+    teks: string;
+  }>;
 }
 
 // English version Surah detail

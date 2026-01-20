@@ -24,9 +24,18 @@ export function SurahFilter({
   onRevelationChange,
 }: SurahFilterProps) {
   const revelationOptions = [
-    { value: "all", label: locale === "id" ? "Semua" : "All" },
-    { value: "Mekah", label: locale === "id" ? "Mekah" : "Makkah" },
-    { value: "Madinah", label: locale === "id" ? "Madinah" : "Madinah" },
+    {
+      value: locale === "id" ? "all" : "all",
+      label: locale === "id" ? "Semua" : "All",
+    },
+    {
+      value: locale === "id" ? "Mekah" : "Meccan",
+      label: locale === "id" ? "Mekah" : "Meccan",
+    },
+    {
+      value: locale === "id" ? "Madinah" : "Medinan",
+      label: locale === "id" ? "Madinah" : "Medinan",
+    },
   ];
 
   return (

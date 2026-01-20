@@ -1,53 +1,52 @@
 // app/[locale]/doa/[id]/page.tsx
+import { getAllDoas, getDoaById } from "@/lib/services/doa.service";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 import { notFound } from "next/navigation";
-import { PageContainer } from "@/components/layout/PageContainer";
-import { getDoaById } from "@/lib/services";
-import type { Locale } from "@/types/common";
 import { DoaDetailContent } from "../DoaDetailContent";
+import { PageContainer } from "@/components/layout";
 
-interface DoaDetailPageProps {
-  params: Promise<{
-    locale: Locale;
-    id: string;
-  }>;
-}
+export default async function DoaDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string; locale: "id" | "en" }>;
+}) {
+  // Await params first
+  const { id, locale } = await params;
 
-const getDictionary = (locale: Locale) => {
-  if (locale === "id") {
-    return {
-      back: "Kembali",
-      arabic: "Teks Arab",
-      transliteration: "Transliterasi",
-      meaning: "Artinya",
-      about: "Keterangan & Dalil",
-      category: "Kategori",
-      tags: "Tag",
-    };
-  }
+  const [doa, allDoas, dict] = await Promise.all([
+    getDoaById(id),
+    getAllDoas(),
+    getDictionary(locale),
+  ]);
 
-  return {
-    back: "Back",
-    arabic: "Arabic Text",
-    transliteration: "Transliteration",
-    meaning: "Meaning",
-    about: "Description & Source",
-    category: "Category",
-    tags: "Tags",
-  };
-};
-
-export default async function DoaDetailPage({ params }: DoaDetailPageProps) {
-  const { locale, id } = await params;
-  const dict = getDictionary(locale);
-  const doa = await getDoaById(id);
-
-  if (!doa) {
+  if (!doa || !allDoas) {
     notFound();
   }
 
   return (
     <PageContainer className="py-8">
-      <DoaDetailContent doa={doa} locale={locale} dictionary={dict} />
+      <DoaDetailContent
+        doa={doa}
+        allDoas={allDoas}
+        locale={locale}
+        dictionary={dict}
+      />
     </PageContainer>
+  );
+}
+
+// Generate static params for better performance (optional)
+export async function generateStaticParams() {
+  const allDoas = await getAllDoas();
+
+  if (!allDoas) return [];
+
+  const locales = ["id", "en"];
+
+  return allDoas.flatMap((doa) =>
+    locales.map((locale) => ({
+      locale,
+      id: doa.id.toString(),
+    }))
   );
 }

@@ -22,7 +22,7 @@ export function BackButton({ text = "Back", fallbackHref }: BackButtonProps) {
   };
 
   return (
-    <Button variant="plain" size="sm" onClick={handleBack}>
+    <Button variant="outline" size="sm" onClick={handleBack}>
       <ArrowLeft className="size-4" />
       {text}
     </Button>

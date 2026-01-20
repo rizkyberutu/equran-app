@@ -1,3 +1,4 @@
+// components/surah/SurahCard.tsx
 "use client";
 
 import Link from "next/link";
@@ -36,20 +37,7 @@ export function SurahCard({ surah, locale }: SurahCardProps) {
 
           {/* Surah Info */}
           <div className="flex items-center gap-2">
-            <Badge
-              variant={
-                surah.tempatTurun?.toLowerCase() === "madinah"
-                  ? "secondary-outline"
-                  : "primary-outline"
-              }
-              className={
-                surah.tempatTurun?.toLowerCase() === "madinah"
-                  ? "border-secondary-border"
-                  : undefined
-              }
-            >
-              {surah.tempatTurun}
-            </Badge>
+            <Badge variant="primary-outline">{surah.tempatTurun}</Badge>
 
             <span className="text-base text-muted">
               <span className="font-semibold text-primary">

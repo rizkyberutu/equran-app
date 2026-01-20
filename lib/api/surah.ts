@@ -79,16 +79,17 @@ export async function getSurahDetailEN(number: number): Promise<SurahDetailEN> {
 /**
  * Get tafsir for a surah (Indonesian only)
  */
-export async function getSurahTafsir(number: number): Promise<TafsirResponse> {
+export async function getSurahTafsir(number: number) {
   try {
-    const data = await apiClient.get<TafsirResponse>(
+    const response = await apiClient.get<TafsirResponse>(
       apiConfig.equran.endpoints.tafsir(number),
       "id"
     );
-    return data;
+    // Return data.tafsir langsung, bukan full response
+    return response.data?.tafsir || [];
   } catch (error) {
     console.error(`Error fetching tafsir for surah ${number}:`, error);
-    throw error;
+    return []; // Return empty array kalo error
   }
 }
 

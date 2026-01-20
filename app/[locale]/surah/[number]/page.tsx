@@ -2,6 +2,7 @@
 import type { Locale } from "@/types/common";
 import { notFound } from "next/navigation";
 import { getSurahDetail, getAllSurahs } from "@/lib/services";
+import { getSurahTafsir } from "@/lib/api/surah";
 import { SurahDetailClient } from "@/components/surah/SurahDetailClient";
 
 interface SurahDetailPageProps {
@@ -37,19 +38,26 @@ export default async function SurahDetailPage({
   const { locale, number } = await params;
   const dict = getDictionary(locale);
 
-  // Fetch both surah detail and all surahs for sidebar
-  const [surah, allSurahs] = await Promise.all([
+  // Fetch surah detail, all surahs, dan tafsir (hanya untuk Indonesian)
+  const [surah, allSurahs, tafsirArray] = await Promise.all([
     getSurahDetail(number, locale),
     getAllSurahs(locale),
+    locale === "id" ? getSurahTafsir(parseInt(number)) : Promise.resolve([]),
   ]);
 
   if (!surah) {
     notFound();
   }
 
+  // Merge tafsir ke surah object
+  const surahWithTafsir = {
+    ...surah,
+    tafsir: tafsirArray,
+  };
+
   return (
     <SurahDetailClient
-      surah={surah}
+      surah={surahWithTafsir as any}
       allSurahs={allSurahs || []}
       locale={locale}
       dict={dict}

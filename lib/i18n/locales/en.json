@@ -24,7 +24,13 @@
   "doa": {
     "title": "Daily Duas",
     "arabic": "Arabic",
-    "latin": "Latin",
-    "translation": "Translation"
+    "latin": "Transliteration",
+    "translation": "Translation",
+    "viewDetails": "View Details",
+    "close": "Close",
+    "about": "About & Reference",
+    "category": "Category",
+    "previousDoa": "Previous Dua",
+    "nextDoa": "Next Dua"
   }
 }

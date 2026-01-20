@@ -1,7 +1,7 @@
 // components/surah/SurahSidebar.tsx
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/selia/button";
@@ -27,6 +27,8 @@ export function SurahSidebar({
 }: SurahSidebarProps) {
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
+  const activeItemRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredSurahs = useMemo(() => {
     if (!searchQuery) return surahs;
@@ -39,6 +41,21 @@ export function SurahSidebar({
         surah.nomor.toString().includes(query)
     );
   }, [surahs, searchQuery]);
+
+  // Auto scroll to active surah
+  useEffect(() => {
+    if (activeItemRef.current && scrollContainerRef.current && !searchQuery) {
+      // Delay untuk memastikan DOM sudah ter-render
+      const timeoutId = setTimeout(() => {
+        activeItemRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 100);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [pathname, isOpen, searchQuery]);
 
   return (
     <>
@@ -98,7 +115,10 @@ export function SurahSidebar({
         </div>
 
         {/* Surah List - Scrollable */}
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 overflow-y-auto overscroll-contain"
+        >
           {filteredSurahs.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-center px-4">
               <BookOpen className="size-16 text-muted mb-4" />
@@ -114,7 +134,7 @@ export function SurahSidebar({
           ) : (
             <div className="p-3 space-y-2">
               {filteredSurahs.map((surah) => {
-                const isActive = pathname.includes(`/surah/${surah.nomor}`);
+                const isActive = pathname.endsWith(`/surah/${surah.nomor}`);
                 return (
                   <Link
                     key={surah.nomor}
@@ -123,6 +143,7 @@ export function SurahSidebar({
                     className="block"
                   >
                     <div
+                      ref={isActive ? activeItemRef : null}
                       className={cn(
                         "p-4 rounded-xl transition-all duration-200",
                         "border",

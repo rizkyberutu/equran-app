@@ -67,7 +67,9 @@ export function SurahDetailClient({
             <AyahList
               ayahs={surah.ayat}
               surahNumber={surah.nomor}
+              surahName={surah.namaLatin}
               locale={locale}
+              tafsir={(surah as any).tafsir}
             />
 
             <SurahNavigation
