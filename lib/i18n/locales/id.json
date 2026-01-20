@@ -25,6 +25,12 @@
     "title": "Doa Sehari-hari",
     "arabic": "Arab",
     "latin": "Latin",
-    "translation": "Terjemahan"
+    "translation": "Terjemahan",
+    "viewDetails": "Lihat Detail",
+    "close": "Tutup",
+    "about": "Keterangan & Dalil",
+    "category": "Kategori",
+    "previousDoa": "Doa Sebelumnya",
+    "nextDoa": "Doa Selanjutnya"
   }
 }

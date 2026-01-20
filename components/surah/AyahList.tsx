@@ -17,32 +17,52 @@ import { getQariName } from "@/lib/utils/qari-mapping";
 import type { Ayah } from "@/types/surah";
 import type { Locale } from "@/types/common";
 
+interface TafsirItem {
+  ayat: number;
+  teks: string;
+}
+
 interface AyahListProps {
   ayahs: Ayah[];
   surahNumber: number;
+  surahName: string;
   locale: Locale;
   itemsPerPage?: number;
+  tafsir?: TafsirItem[]; // Array tafsir dari API
 }
 
 export function AyahList({
   ayahs,
   surahNumber,
+  surahName,
   locale,
   itemsPerPage = 10,
+  tafsir = [],
 }: AyahListProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
+  const safeAyahs = ayahs || [];
+  const safeTafsir = tafsir || [];
+
   const availableQaris = ayahs.length > 0 ? Object.keys(ayahs[0].audio) : [];
-  const defaultQari = availableQaris[0] || "";
+  // Set default qari to Misyari Rasyid Al-Afasi (code: 05)
+  const defaultQari = availableQaris.includes("05")
+    ? "05"
+    : availableQaris[0] || "";
   const [selectedQari, setSelectedQari] = useState<string>(defaultQari);
 
-  // Jump to ayah state
-  const [jumpToAyah, setJumpToAyah] = useState<string>("");
+  // Filter by ayah state - empty string means show all ayahs
+  const [selectedAyah, setSelectedAyah] = useState<string>("");
 
-  const totalPages = Math.ceil(ayahs.length / itemsPerPage);
+  // Filter ayahs based on selection
+  const filteredAyahs = selectedAyah
+    ? ayahs.filter((ayah) => ayah.nomorAyat.toString() === selectedAyah)
+    : ayahs;
+
+  const totalPages = Math.ceil(filteredAyahs.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, ayahs.length);
-  const currentAyahs = ayahs.slice(startIndex, endIndex);
+  const endIndex = Math.min(startIndex + itemsPerPage, filteredAyahs.length);
+  const currentAyahs = filteredAyahs.slice(startIndex, endIndex);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -52,29 +72,29 @@ export function AyahList({
     }
   };
 
-  // Handle jump to specific ayah
-  const handleJumpToAyah = (ayahNumber: string) => {
-    if (!ayahNumber) return;
+  // Handle ayah filter change
+  const handleAyahFilterChange = (ayahNumber: string) => {
+    setSelectedAyah(ayahNumber);
+    setCurrentPage(1); // Reset to first page when filter changes
 
-    setJumpToAyah(ayahNumber);
-    const ayahNum = parseInt(ayahNumber);
-
-    // Calculate which page the ayah is on
-    const pageNum = Math.ceil(ayahNum / itemsPerPage);
-    setCurrentPage(pageNum);
-
-    // Scroll to the ayah after a short delay to ensure page has changed
+    // Scroll to top of ayah list
     setTimeout(() => {
-      const element = document.getElementById(`ayah-${ayahNum}`);
+      const element = document.getElementById("ayah-list");
       if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
-        // Add highlight effect
-        element.classList.add("ring-2", "ring-primary", "ring-offset-2");
-        setTimeout(() => {
-          element.classList.remove("ring-2", "ring-primary", "ring-offset-2");
-        }, 2000);
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 100);
+  };
+
+  // Reset to page 1 when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedAyah]);
+
+  // Helper function to get tafsir for specific ayah
+  const getTafsirForAyah = (ayahNumber: number): string | undefined => {
+    const tafsirItem = tafsir.find((t) => t.ayat === ayahNumber);
+    return tafsirItem?.teks;
   };
 
   return (
@@ -84,6 +104,52 @@ export function AyahList({
         <Card>
           <CardBody className="py-4">
             <div className="flex flex-col md:flex-row gap-4">
+              {/* Filter by Ayah */}
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <BookOpen className="size-4 text-primary" />
+                  <p className="text-sm font-medium text-foreground">
+                    {locale === "id" ? "Ayat:" : "Verse:"}
+                  </p>
+                </div>
+                <Select
+                  value={selectedAyah}
+                  onValueChange={(value) =>
+                    handleAyahFilterChange(value as string)
+                  }
+                >
+                  <SelectTrigger>
+                    <span className="flex-1 text-left text-muted cursor-pointer">
+                      {selectedAyah
+                        ? `${
+                            locale === "id" ? "Ayat" : "Verse"
+                          } ${selectedAyah}`
+                        : locale === "id"
+                          ? "Semua"
+                          : "All"}
+                    </span>
+                  </SelectTrigger>
+                  <SelectPopup>
+                    <SelectList>
+                      {/* Option to show all verses */}
+                      <SelectItem value="" className="cursor-pointer">
+                        {locale === "id" ? "Semua" : "All"}
+                      </SelectItem>
+                      {/* Individual verse options */}
+                      {ayahs.map((ayah) => (
+                        <SelectItem
+                          key={ayah.nomorAyat}
+                          value={ayah.nomorAyat.toString()}
+                          className="cursor-pointer"
+                        >
+                          {locale === "id" ? "Ayat" : "Verse"} {ayah.nomorAyat}
+                        </SelectItem>
+                      ))}
+                    </SelectList>
+                  </SelectPopup>
+                </Select>
+              </div>
+
               {/* Qari Selector */}
               {availableQaris.length > 1 && (
                 <div className="flex-1">
@@ -98,14 +164,18 @@ export function AyahList({
                     onValueChange={(value) => setSelectedQari(value as string)}
                   >
                     <SelectTrigger>
-                      <span className="flex-1 text-left">
+                      <span className="flex-1 text-left cursor-pointer">
                         {getQariName(selectedQari)}
                       </span>
                     </SelectTrigger>
                     <SelectPopup>
                       <SelectList>
                         {availableQaris.map((qari) => (
-                          <SelectItem key={qari} value={qari}>
+                          <SelectItem
+                            key={qari}
+                            value={qari}
+                            className="cursor-pointer"
+                          >
                             {getQariName(qari)}
                           </SelectItem>
                         ))}
@@ -114,42 +184,6 @@ export function AyahList({
                   </Select>
                 </div>
               )}
-
-              {/* Jump to Ayah */}
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <BookOpen className="size-4 text-primary" />
-                  <p className="text-sm font-medium text-foreground">
-                    {locale === "id" ? "Lompat ke Ayat:" : "Jump to Verse:"}
-                  </p>
-                </div>
-                <Select
-                  value={jumpToAyah}
-                  onValueChange={(value) => handleJumpToAyah(value as string)}
-                >
-                  <SelectTrigger>
-                    <span className="flex-1 text-left text-muted">
-                      {jumpToAyah
-                        ? `${locale === "id" ? "Ayat" : "Verse"} ${jumpToAyah}`
-                        : locale === "id"
-                        ? "Pilih ayat..."
-                        : "Select verse..."}
-                    </span>
-                  </SelectTrigger>
-                  <SelectPopup>
-                    <SelectList>
-                      {ayahs.map((ayah) => (
-                        <SelectItem
-                          key={ayah.nomorAyat}
-                          value={ayah.nomorAyat.toString()}
-                        >
-                          {locale === "id" ? "Ayat" : "Verse"} {ayah.nomorAyat}
-                        </SelectItem>
-                      ))}
-                    </SelectList>
-                  </SelectPopup>
-                </Select>
-              </div>
             </div>
           </CardBody>
         </Card>
@@ -162,9 +196,10 @@ export function AyahList({
             key={ayah.nomorAyat}
             ayah={ayah}
             surahNumber={surahNumber}
+            surahName={surahName}
             locale={locale}
             selectedQari={selectedQari}
-            showTafsir={true}
+            tafsirText={getTafsirForAyah(ayah.nomorAyat)}
           />
         ))}
       </div>
@@ -178,7 +213,7 @@ export function AyahList({
           showInfo
           startIndex={startIndex}
           endIndex={endIndex}
-          totalItems={ayahs.length}
+          totalItems={filteredAyahs.length}
           locale={locale}
         />
       )}

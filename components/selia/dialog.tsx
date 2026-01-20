@@ -31,7 +31,7 @@ export function DialogPopup({
       <BaseDialog.Backdrop
         className={cn(
           "fixed inset-0 min-h-dvh bg-black/60 transition-[color,opacity] backdrop-blur-sm",
-          "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0"
+          "data-starting-style:opacity-0 data-ending-style:opacity-0"
         )}
       />
       <BaseDialog.Popup

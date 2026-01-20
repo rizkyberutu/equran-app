@@ -80,7 +80,7 @@ export function SurahDetailHeader({
 
             {/* Stats */}
             <div className="flex flex-wrap items-center gap-3">
-              <Badge variant="secondary" size="md">
+              <Badge variant="primary-outline" size="md">
                 {surah.tempatTurun}
               </Badge>
               <div className="flex items-center gap-2 text-sm text-muted">

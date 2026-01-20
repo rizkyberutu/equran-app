@@ -10,9 +10,10 @@ export const avatarVariants = cva(
   {
     variants: {
       size: {
-        sm: "size-8",
-        md: "size-11",
-        lg: "size-13",
+        xs: "size-8",
+        sm: "size-9",
+        md: "size-10",
+        lg: "size-12",
       },
     },
     defaultVariants: {

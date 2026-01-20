@@ -379,3 +379,18 @@ body {
     font-family: var(--font-arabic);
   }
 }
+
+/* Font Variables */
+:root {
+  --font-sora: var(--font-sora);
+  --font-arabic: var(--font-arabic);
+}
+
+/* Font Classes */
+.font-sans {
+  font-family: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-arabic {
+  font-family: var(--font-arabic), serif !important;
+}
